@@ -1,0 +1,4 @@
+# 镜像只需要 nginx.conf 与已构建的 dist，其余一律排除（白名单写法）。
+*
+!nginx.conf
+!dist

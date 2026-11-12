@@ -1,0 +1,14 @@
+# x2.1 vs x2.1-flash 对比 demo：宿主机 127.0.0.1:9399 → 容器内 nginx 80。
+# 宿主机反向代理把 ad.xxx.com（HTTPS）转发到 proxy_pass http://127.0.0.1:9399;
+#   构建并启动：docker compose up -d --build
+# 固定项目名，从任何目录部署都是同一套。
+name: model-compare-demo
+
+services:
+  model-compare-demo:
+    build: .
+    container_name: model-compare-demo
+    restart: unless-stopped
+    ports:
+      # 只绑本机：公网不能直接访问 IP:9399，必须经宿主机反代（HTTPS）进入。
+      - "127.0.0.1:9399:80"
