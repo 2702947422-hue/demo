@@ -1,0 +1,17 @@
+{
+  "name": "xmax-model-compare-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "本地对比 x2.1 与 x2.1-flash 实时生成效果的小 demo（独立于项目之外）",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5288 --open",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@xmaxai/web-sdk": "1.1.5"
+  },
+  "devDependencies": {
+    "vite": "8.3.5"
+  }
+}

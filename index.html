@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>x2.1 vs x2.1-flash 对比</title>
+    <style>
+      :root { color-scheme: dark; --bg: #111214; --panel: #1b1c20; --line: #2c2e34; --text: #e8e8ea; --muted: #8b8d94; --accent: #7a6dff; --danger: #ff6b6b; --ok: #4ade80; }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 16px; background: var(--bg); color: var(--text); font: 14px/1.5 system-ui, "Microsoft YaHei", sans-serif; }
+      h1 { margin: 0 0 12px; font-size: 18px; }
+      .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+      .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+      .row + .row { margin-top: 10px; }
+      label { color: var(--muted); }
+      input[type="password"], input[type="text"], select, textarea { background: #0d0e10; color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font: inherit; }
+      textarea { width: 100%; min-height: 56px; resize: vertical; }
+      button { background: #26282e; color: var(--text); border: 1px solid var(--line); border-radius: 8px; padding: 6px 14px; font: inherit; cursor: pointer; }
+      button:hover:not(:disabled) { border-color: #555; }
+      button:disabled { opacity: 0.45; cursor: not-allowed; }
+      button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+      button.danger { color: var(--danger); }
+      .hint { color: var(--muted); font-size: 12px; }
+      .source { display: flex; gap: 12px; align-items: flex-start; }
+      #sourceVideo, #refThumb { width: 160px; height: 120px; object-fit: cover; background: #000; border-radius: 8px; border: 1px solid var(--line); }
+      #refThumb { width: 80px; height: 80px; }
+      .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      @media (max-width: 900px) { .panels { grid-template-columns: 1fr; } }
+      .panel h2 { margin: 0 0 8px; font-size: 15px; display: flex; justify-content: space-between; }
+      .stage { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden; }
+      .stage > div { position: absolute !important; inset: 0; width: 100% !important; height: 100% !important; }
+      .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; font-size: 12px; }
+      .stats div { background: #131417; border-radius: 6px; padding: 6px 8px; }
+      .stats b { display: block; font-size: 14px; font-weight: 600; color: var(--text); }
+      .stats span { color: var(--muted); }
+      .status-ok { color: var(--ok); }
+      .status-err { color: var(--danger); }
+      .error { color: var(--danger); font-size: 12px; margin-top: 6px; min-height: 18px; word-break: break-all; }
+    </style>
+  </head>
+  <body>
+    <h1>x2.1 vs x2.1-flash 实时生成对比</h1>
+
+    <div class="card">
+      <div class="row">
+        <label for="apiKey">API Key</label>
+        <input id="apiKey" type="password" size="40" placeholder="Xmax API Key（只保存在本机浏览器）" autocomplete="off" />
+        <label for="environment">环境</label>
+        <select id="environment">
+          <option value="china">china</option>
+          <option value="global">global</option>
+        </select>
+        <span class="hint">两边各建一路连接，会同时按两个模型计费。</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="source">
+        <video id="sourceVideo" muted playsinline autoplay loop></video>
+        <div style="flex: 1">
+          <div class="row">
+            <button id="cameraBtn">打开摄像头</button>
+            <button id="videoBtn">选择本地视频</button>
+            <input id="videoFile" type="file" accept="video/*" hidden />
+            <span id="sourceInfo" class="hint">还没有输入画面</span>
+          </div>
+          <div class="row">
+            <textarea id="prompt">视频中角色替换成参考图中角色</textarea>
+          </div>
+          <div class="row">
+            <img id="refThumb" alt="" hidden />
+            <button id="refBtn">选择参考图（可选）</button>
+            <button id="refClear" hidden>移除参考图</button>
+            <input id="refFile" type="file" accept="image/*" hidden />
+            <span class="hint">两边用同一张参考图、同一段提示词、同一路输入画面。</span>
+          </div>
+          <div class="row">
+            <button id="startBtn" class="primary">开始对比</button>
+            <button id="updateBtn" disabled>更新提示词 / 参考图</button>
+            <button id="stopBtn" class="danger" disabled>停止</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panels" id="panels"></div>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

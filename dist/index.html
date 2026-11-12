@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>x2.1 vs x2.1-flash 对比</title>
+    <style>:root{--lightningcss-light: ;--lightningcss-dark:initial;color-scheme:dark;--bg:#111214;--panel:#1b1c20;--line:#2c2e34;--text:#e8e8ea;--muted:#8b8d94;--accent:#7a6dff;--danger:#ff6b6b;--ok:#4ade80}*{box-sizing:border-box}body{background:var(--bg);color:var(--text);margin:0;padding:16px;font:14px/1.5 system-ui,Microsoft YaHei,sans-serif}h1{margin:0 0 12px;font-size:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:12px;padding:12px}.row{flex-wrap:wrap;align-items:center;gap:8px;display:flex}.row+.row{margin-top:10px}label{color:var(--muted)}input[type=password],input[type=text],select,textarea{color:var(--text);border:1px solid var(--line);font:inherit;background:#0d0e10;border-radius:8px;padding:6px 10px}textarea{resize:vertical;width:100%;min-height:56px}button{color:var(--text);border:1px solid var(--line);font:inherit;cursor:pointer;background:#26282e;border-radius:8px;padding:6px 14px}button:hover:not(:disabled){border-color:#555}button:disabled{opacity:.45;cursor:not-allowed}button.primary{background:var(--accent);border-color:var(--accent);color:#fff}button.danger{color:var(--danger)}.hint{color:var(--muted);font-size:12px}.source{align-items:flex-start;gap:12px;display:flex}#sourceVideo,#refThumb{object-fit:cover;border:1px solid var(--line);background:#000;border-radius:8px;width:160px;height:120px}#refThumb{width:80px;height:80px}.panels{grid-template-columns:1fr 1fr;gap:12px;display:grid}@media (width<=900px){.panels{grid-template-columns:1fr}}.panel h2{justify-content:space-between;margin:0 0 8px;font-size:15px;display:flex}.stage{aspect-ratio:16/9;background:#000;border-radius:8px;position:relative;overflow:hidden}.stage>div{inset:0;width:100%!important;height:100%!important;position:absolute!important}.stats{grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;font-size:12px;display:grid}.stats div{background:#131417;border-radius:6px;padding:6px 8px}.stats b{color:var(--text);font-size:14px;font-weight:600;display:block}.stats span{color:var(--muted)}.status-ok{color:var(--ok)}.status-err{color:var(--danger)}.error{color:var(--danger);word-break:break-all;min-height:18px;margin-top:6px;font-size:12px}</style>
+    <script type="module" crossorigin src="/assets/index-CTmvdMLv.js"></script>
+  </head>
+  <body>
+    <h1>x2.1 vs x2.1-flash 实时生成对比</h1>
+
+    <div class="card">
+      <div class="row">
+        <label for="apiKey">API Key</label>
+        <input id="apiKey" type="password" size="40" placeholder="Xmax API Key（只保存在本机浏览器）" autocomplete="off" />
+        <label for="environment">环境</label>
+        <select id="environment">
+          <option value="china">china</option>
+          <option value="global">global</option>
+        </select>
+        <span class="hint">两边各建一路连接，会同时按两个模型计费。</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="source">
+        <video id="sourceVideo" muted playsinline autoplay loop></video>
+        <div style="flex: 1">
+          <div class="row">
+            <button id="cameraBtn">打开摄像头</button>
+            <button id="videoBtn">选择本地视频</button>
+            <input id="videoFile" type="file" accept="video/*" hidden />
+            <span id="sourceInfo" class="hint">还没有输入画面</span>
+          </div>
+          <div class="row">
+            <textarea id="prompt">视频中角色替换成参考图中角色</textarea>
+          </div>
+          <div class="row">
+            <img id="refThumb" alt="" hidden />
+            <button id="refBtn">选择参考图（可选）</button>
+            <button id="refClear" hidden>移除参考图</button>
+            <input id="refFile" type="file" accept="image/*" hidden />
+            <span class="hint">两边用同一张参考图、同一段提示词、同一路输入画面。</span>
+          </div>
+          <div class="row">
+            <button id="startBtn" class="primary">开始对比</button>
+            <button id="updateBtn" disabled>更新提示词 / 参考图</button>
+            <button id="stopBtn" class="danger" disabled>停止</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panels" id="panels"></div>
+
+  </body>
+</html>

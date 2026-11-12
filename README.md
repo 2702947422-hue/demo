@@ -11,6 +11,23 @@ npm run dev
 
 浏览器会自动打开 http://localhost:5288 。
 
+## 部署到 ad.xxx.com
+
+纯静态页面，不需要后端。
+
+前面的反向代理负责域名和 HTTPS，转发到本机 9399 端口（`proxy_pass http://127.0.0.1:9399;`）。
+
+1. 本地构建：`npm run build`，生成 `dist/`（一个 `index.html` 和 `assets/` 目录）。
+2. 把 `dist/` 里的文件上传到服务器的 `/var/www/ad-demo/`。
+3. 把 `deploy/nginx-ad.conf` 放到 `/etc/nginx/conf.d/ad-demo.conf`，它只监听本机 `127.0.0.1:9399`。
+4. `nginx -t` 检查无误后 `nginx -s reload`，然后访问 https://ad.xxx.com 。
+
+注意：
+
+- 前面的代理必须是 HTTPS，否则浏览器不允许打开摄像头（本地视频不受影响）。
+- 不要把 API Key 写进代码；每个人在页面里填自己要用的 Key。
+- 以后更新：重新 `npm run build`，覆盖上传 `dist/` 里的文件即可，不用重启 nginx。
+
 ## 使用
 
 1. 填 Xmax API Key，选环境（china / global）。Key 只保存在本机浏览器里。
